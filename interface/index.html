@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="StyleSheet1.css">
+</head>
+<body>
+    <div>
+        <input class="btn btn-block" type="password" id="txtPassword" placeholder="...סיסמא" />
+        <button class="btn btn-primary btn-block" onclick="goTo()">התחבר</button>
+    </div>
+
+    <script>
+        function goTo() {
+            let input = document.getElementById('txtPassword').value;
+
+            if (input === '2023')
+                location.href = '/newSite.html'
+
+            if (input === '1948')
+                location.href = '/managerPage.html'
+
+            if (input != '2023' && input != '1948')
+                alert('נא הכנס סיסמא נכונה')
+
+        }
+    </script>
+</body>
+</html>

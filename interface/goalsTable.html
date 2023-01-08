@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale-1" />
+    <title>Goals-Management</title>
+    <link rel="stylesheet" href="StyleSheet1.css">
+</head>
+<body>
+    <span>
+        <button class="btn-back" onclick="goBack()">חזור לדף הקודם</button>
+    </span>
+    <input type="hidden" id="hfRowIndex" value="" />
+    <table class="topTable">
+        <tr>
+            <td>
+                <input type="number" name="Id" id="txtGoalId" value="" />
+            </td>
+            <td>מספר מטרה</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="Name" id="txtName" value="" />
+            </td>
+            <td>תחום</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="AnnualGoal" id="txtAnnualGoal" value="" />
+            </td>
+            <td>מטרה שנתית</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="Amount" id="txtAmount" value="" />
+            </td>
+            <td>סכום נכון להיום</td>
+        </tr>
+        <tr>
+            <td>
+                <button type='button' id='btnAdd'>הוספה</button>
+                <button type='button' id='btnUpdate' style="display: none;">עריכה</button>
+            </td>
+            <td>
+                <button type='button' id='btnClear'>ניקוי</button>
+            </td>
+            <td>
+                <button id="btnExport" onclick="exportReportToExcel('xlsx')">הורד קובץ אקסל</button>
+            </td>
+        </tr>
+    </table>
+
+    <table class="table" id="tblCustomers">
+        <thead>
+        <th>מספר מטרה </th>
+        <th> תחום</th>
+        <th> מטרה שנתית</th>
+        <th> סכום נכון להיום</th>
+        <th> עריכה </th>
+        <th> מחיקה </th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>ארנונה</td>
+                <td>1,000,000</td>
+                <td>350,000</td>
+                <td>
+                    <a class='edit' href='JavaScript:void(0);'>עריכה</a>
+                </td>
+                <td>
+                    <a class='delete' href='JavaScript:void(0);'>מחיקה</a>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>מיסים</td>
+                <td>700,000</td>
+                <td>200,000</td>
+                <td>
+                    <a class='edit' href='JavaScript:void(0);'>עריכה</a>
+                </td>
+                <td>
+                    <a class='delete' href='JavaScript:void(0);'>מחיקה</a>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>תחבורה</td>
+                <td>450,000</td>
+                <td>75,000</td>
+                <td>
+                    <a class='edit' href='JavaScript:void(0);'>עריכה</a>
+                </td>
+                <td>
+                    <a class='delete' href='JavaScript:void(0);'>מחיקה</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#btnAdd').on('click', function () {
+                var goalId, name, annualGoal, amount;
+                goalId = $("#txtGoalId").val();
+                name = $("#txtName").val();
+                annualGoal = $("#txtAnnualGoal").val();
+                amount = $("#txtAmount").val();
+
+                var edit = "<a class='edit' href='JavaScript:void(0);' >עריכה</a>";
+                var del = "<a class='delete' href='JavaScript:void(0);'>מחיקה</a>";
+
+                if (goalId == "" || name == "") {
+                    alert("חובה להזין מספר מטרה ותחום");
+                } else {
+                    var table =
+                        "<tr><td>" + goalId + "</td><td>" + name + "</td><td>" + annualGoal + "</td><td>" + amount +
+                        "</td><td>" + edit + "</td><td>" + del + "</td></tr>";
+                    $("#tblCustomers").append(table);
+                }
+                goalId = $("#txtGoalId").val();
+                name = $("#txtName").val();
+                annualGoal = $("#txtAnnualGoal").val();
+                amount = $("#txtAmount").val();
+                Clear();
+            });
+
+            $('#btnUpdate').on('click', function () {
+                var goalId, name, annualGoal, amount;
+                goalId = $("#txtGoalId").val();
+                name = $("#txtName").val();
+                annualGoal = $("#txtAnnualGoal").val();
+                amount = $("#txtAmount").val();
+
+                $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(0).html(goalId);
+                $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(1).html(name)
+                $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(2).html(annualGoal);
+                $('#tblCustomers tbody tr').eq($('#hfRowIndex').val()).find('td').eq(3).html(amount);
+
+                $('#btnAdd').show();
+                $('#btnUpdate').hide();
+                Clear();
+            });
+
+            $("#tblCustomers").on("click", ".delete", function (e) {
+                if (confirm("?האם הנך בטוח שברצונך לבצע מחיקה של הנתונים")) {
+                    $(this).closest('tr').remove();
+                } else {
+                    e.preventDefault();
+                }
+            });
+
+            $('#btnClear').on('click', function () {
+                Clear();
+            });
+
+            $("#tblCustomers").on("click", ".edit", function (e) {
+                var row = $(this).closest('tr');
+                $('#hfRowIndex').val($(row).index());
+                var td = $(row).find("td");
+                $('#txtGoalId').val($(td).eq(0).html());
+                $('#txtName').val($(td).eq(1).html());
+                $('#txtAnnualGoal').val($(td).eq(2).html());
+                $('#txtAmount').val($(td).eq(3).html());
+
+                $('#btnAdd').hide();
+                $('#btnUpdate').show();
+            });
+        });
+        function Clear() {
+            $("#txtGoalId").val("");
+            $("#txtName").val("");
+            $("#txtAnnualGoal").val("");
+            $("#txtAmount").val("");
+
+            $("#hfRowIndex").val("");
+            $('#btnUpdate').hide();
+            $('#btnAdd').show();
+        }
+
+        function exportReportToExcel(type) {
+            var data = document.getElementById('tblCustomers');
+            var excelFile = XLSX.utils.table_to_book(data, { sheet: "sheet1" });
+            XLSX.write(excelFile, { bookType: type, bookSST: true, type: 'base64' });
+            XLSX.writeFile(excelFile, 'ExportedFile:HTMLTableToExcel.' + type);
+        }
+
+        function goBack() {
+            location.href = '/managerPage.html'
+        }
+
+    </script>
+
+</body>
+</html>
