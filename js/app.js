@@ -37,4 +37,38 @@ $(document).ready(function () {
         //    $("#mainNav").removeClass("on-scroll").fadeOut(100);
         //}
     //});
+
+        var checkInterval = 60000;
+    var intervalId = setInterval(remind, checkInterval);
+
+    function remind() {
+        var currentTime = new Date();
+        var reminderTime = new Date("2023-06-30T14:40:00");
+
+        if (currentTime >= reminderTime) {
+            callBot();
+            console.log("Reminder: It's time!");
+
+            clearInterval(intervalId);
+        }
+    }
+
+    function callBot() {
+        var message = "ברוכות הבאות";
+        let token = "6191346597:AAEpNzN-CmVfzh2ami_yQBIbgPXiwe1mPnc";
+        let chat_id = -937916253;
+
+        let url = "https://api.telegram.org/bot" + token + "/sendMessage?chat_id=" + chat_id + "&text=" + message;
+
+        $.ajax({
+            url: url,
+            method: "GET",
+            success: function (response) {
+                console.log("Response:", response);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error:", error);
+            }
+        });
+    }
 });
