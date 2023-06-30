@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     function remind() {
         var currentTime = new Date();
-        var reminderTime = new Date("2023-06-30T14:40:00");
+        var reminderTime = new Date("2023-06-30T16:40:00");
 
         if (currentTime >= reminderTime) {
             callBot();
@@ -54,7 +54,7 @@ $(document).ready(function () {
     }
 
     function callBot() {
-        var message = "ברוכות הבאות";
+        var message = "שבת שלום";
         let token = "6191346597:AAEpNzN-CmVfzh2ami_yQBIbgPXiwe1mPnc";
         let chat_id = -937916253;
 
