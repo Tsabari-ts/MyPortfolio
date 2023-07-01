@@ -45,7 +45,7 @@ $(document).ready(function () {
         var currentTime = new Date();
         var reminderTime = new Date("2023-06-30T17:20:00");
 
-        if (currentTime >= reminderTime) {
+        if (currentTime == reminderTime) {
             callBot();
             console.log("Reminder: It's time!");
 
