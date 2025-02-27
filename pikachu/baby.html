@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>בחירת שם לתינוקת</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #fbe7e7;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 15rem;
+        }
+
+        .name-box {
+            width: 300px;
+            height: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            cursor: grab;
+            position: relative;
+            touch-action: none;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .index-label {
+            font-size: 14px;
+            color: gray;
+            position: absolute;
+            bottom: 5px;
+        }
+
+        .liked-names {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #ff85a2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            width: 320px;
+            text-align: center;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .name-index-label {
+            font-size: 14px;
+            color: gray;
+            position: absolute;
+            top: 23rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="name-box" id="nameBox">שם</div>
+        <div class="feedback" id="feedback"></div>
+        <div class="name-index-label" id="nameIndexLabel" dir="rtl"></div>
+        <button onclick="showLikedNamesPopup()">רשימת שמות שאהבתי</button>
+    </div>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup" id="likedNamesPopup">
+            <div class="name-box" id="likedNameBox">שם</div>
+            <div class="index-label" id="likedIndexLabel" dir="rtl"></div>
+            <button onclick="closePopup()">סגור</button>
+            <button onclick="openFinalList()">רשימה סופית</button>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="popupBestNamesOverlay">
+        <div class="popup" id="likedBestNamesPopup">
+            <h2>השמות שהכי אהבת</h2>
+            <div class="name-box" id="likedBestNameBox"></div>
+            <button onclick="closeBestPopup()">סגור</button>
+        </div>
+    </div>
+
+    <script>
+        const namesBeforeShuffle = [
+            "אבגיל", "אביבה", "אבישג", "אגם", "אדווה", "אדירה", "אהבה", "אהובה", "אודאל", "אודיה", "אודליה", "אודם", "אוסנת", "אופאל", "אופל", "אור-יה", "אורה", "אורטל", "אורית", "אורלי", "אורפז", "אושרית", "אושרת", "אחווה", "איה", "איילה", "איילת", "איילת השחר", "אילאיל", "אילנה", "אילת", "איריס", "אלה", "אלומה", "אלונה", "אלינוי", "אלינור", "אליענה", "אלישבע", "אמונה", "אמילי", "אמלי", "אסנת", "אסתי", "אסתר", "אפרת", "אריאה", "אריאלה", "אשירה", "אליטל", "אחלמה", "אחינעם", "אופירה", "אושרה", "אביבית", "אורנית", "אילה", "אדוה", "אורנה", "אילנית", "אירית", "אספה", "אורנת", "אסתאר", "אנפה", "אמירה", "אימי", "אהובית", "אלקה", "אדרת", "אליאורה", "אתי", "ארנה", "אחווה", "בינה", "בלומה", "ברוריה", "ברכה", "ברקת", "בת", "בת אל", "בת חן", "בת ציון", "בת שבע", "בתאל", "בתיה", "בתשבע", "בת-אל", "בינת", "בת-חן", "בת עמי", "בלהה", "בשמת", "בושמת", "גאולה", "גאיה", "גבריאלה", "גולדה", "גיטל", "גילה", "גלי", "גליה", "גלית", "גיתית", "גתית", "גנית", "גילת", "גיליה", "גפנית", "גינת", "דבורה", "דבש", "דוריה", "דיה", "דינה", "דליה", "דנה", "דניאלה", "דפנה", "דריה", "דניה", "דורית", "דלית", "דקלה", "דיקלה", "דיצה", "דנית", "דגנית", "דברת", "הגר", "הדסה", "הודיה", "היאלי", "הילה", "העני", "הילית", "הראלה", "הרצליה", "הלית", "היא לי", "הדי", "ורד", "ורדה", "ורדית", "זהבה", "זוהרה", "זמירה", "זהבית", "זהורית", "זיוה", "חגית", "חדוה", "חוה", "חווה", "חיה", "חמדה", "חנה", "חני", "חופית", "חבצלת", "חמוטל", "חביבה", "חנית", "חניתה", "חסידה", "חדווה", "טובה", "טוהר", "טלי", "טליה", "טיליה", "טמירה", "יהודית", "יוכבד", "יולי", "יונית", "ימימה", "יסכה", "יסמין", "יעל", "יעלה", "יעלי", "יעלת חן", "יערה", "יפה", "יפית", "יפעת", "ישראלה", "ימית", "יערית", "יפעה", "ירדנה", "יהלומית", "יוכי", "יופיה", "יורית", "יוספה", "יקירה", "יראת", "כנה", "כנרת", "כרמלה", "כלנית", "כרמית", "כוכבה",
+
+            "לאה", "לבונה", "לבנה", "לי-יה", "ליאורה", "ליאן", "ליאנה", "ליאת", "ליה", "ליהי", "ליהיא", "ליטל", "לייה", "לילה", "לילי", "לילך", "לינוי", "לינור", "ליפז", "לירי", "לימור", "לליב", "לירית", "ליבת", "לענה", "לירוז", "לאה-לי", "ליבנת", "לבנת", "ליבנה", "מאירה", "מבשרת", "מוריאל", "מזל", "מיטב", "מיטל", "מיכאלה", "מיכל", "מיקה", "מירב", "מירה", "מירי", "מלי", "מלכה", "מלכות", "מנוחה", "מרגלית", "מרים", "משי", "מיה", "משואה", "מענית", "מרב", "מרווה", "מתת", "מצדה", "מידבא", "מירית", "מרגנית", "מושית", "מרית", "מזלי", "משכית", "נאוה", "נאורה", "נהורה", "נהרה", "נויה", "נוייה", "נועה", "נורית", "נחלה", "נחמה", "נטלי", "נטעלי", "נילי", "נינה", "נלי", "נסיה", "נעמה", "נעמי", "נירית", "נירה", "נוית", "נואית", "נוגה", "נאית", "נופית", "נגה לי", "ניצה", "נצחונה", "נצחיה", "נתנאלה", "נוילי", "סיגל", "סיגלית", "סימא", "סימה", "סמדר", "סנונית", "סוזי", "עדה", "עדינה", "עדנה", "עטרה", "עטרת", "עיינה", "עינת", "עליזה", "עלמה", "עמליה", "ענבל", "ענווה", "ענת", "ערבה", "עתליה", "עבריה", "עתרת", "עדית", "עידית", "עילית", "עלית", "עופרה", "עפרה", "עירית", "עמנואלה", "עננה", "עמיה", "עלוה", "עלווה", "עמירה", "עשירה", "עמלייה", "עודדה", "פנינה", "פרח", "פועה", "פזית", "פנינית", "צאלה", "צביה", "צהלי", "צופיה", "צילה", "ציפורה", "ציפי", "צהלה", "צופית", "צורית", "ציונה", "צרויה", "צחית", "צוקית", "צפנת", "קארין", "קורל", "קסם", "קרן", "קרני", "קשת", "ראשית", "רבקה", "רוחמה", "רויטל", "רומי", "רונה", "רונית", "רות", "רותי", "רחל", "רחלי", "ריבה", "רינה", "רינת", "ריקי", "רנה", "רננה", "רעות", "רעיה", "רמית", "רמה", "רוית", "רווית", "רוויה", "רקפת", "רואית", "רנית", "רחלית", "ראות", "רפאלה", "שבות", "שובה", "שולמית", "שושנה", "שחרי", "שיה", "שילי", "שילת", "שירה", "שיריי", "שירלי", "שירת", "שלהבת", "שלוה", "שלומית", "שלי", "שני", "שפרה", "שרה", "שרי", "שריי", "שרית", "שרונה", "שמרית", "שקמה", "שגית", "שנית", "שונית", "שירית", "שיבולת", "שלכת", "תגל", "תהילה", "תחיה", "תלמה", "תמה", "תמר", "תמרה", "תמרי", "תפארת", "תקווה", "תרצה", "תמנע", "תאנה", "תקומה", "תרזה", "תניה", "תיקי", "תמירה"
+        ]
+        const names = namesBeforeShuffle.sort(() => Math.random() - 0.5);
+        let likedNames = [];
+        let likedBestNames = [];
+        let currentIndex = 0;
+        let likedIndex = 0;
+        const nameBox = document.getElementById("nameBox");
+        const likedNameBox = document.getElementById("likedNameBox");
+        const popupOverlay = document.getElementById("popupOverlay");
+        
+        const likedIndexLabel = document.getElementById("likedIndexLabel");
+        const feedback = document.getElementById("feedback");
+        const likedBestNameBox = document.getElementById("likedBestNameBox");
+        const popupBestNamesOverlay = document.getElementById("popupBestNamesOverlay");
+
+        updatePosition();
+
+        function showNextName() {
+            if (currentIndex < names.length) {
+                nameBox.textContent = names[currentIndex];
+                updatePosition();
+            } else {
+                nameBox.textContent = "אין יותר שמות";
+                isDone = true;
+                return;
+            }
+        }
+
+        function updateNamePosition() {
+            const nameIndexLabel = document.getElementById("nameIndexLabel");
+            const totalNames = names.length;
+            nameIndexLabel.textContent = `מתוך ${currentIndex + 1}  ${totalNames}`;
+        }
+
+        function updatePosition() {
+            const nameIndexLabel = document.getElementById("nameIndexLabel");
+            const totalNames = names.length;
+            nameIndexLabel.textContent = `${currentIndex + 1} מתוך ${totalNames}`;
+        }
+
+        function handleDrag(element, callback) {
+            let startX, isDragging = false;
+
+            element.addEventListener("touchstart", (e) => {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+            });
+
+            element.addEventListener("touchmove", (e) => {
+                if (!isDragging) return;
+                let diffX = e.touches[0].clientX - startX;
+                element.style.transform = `translateX(${diffX}px)`;
+            });
+
+            element.addEventListener("touchend", (e) => {
+                if (!isDragging) return;
+                let endX = e.changedTouches[0].clientX;
+                isDragging = false;
+                element.style.transform = "translateX(0)";
+                if (endX - startX > 50) callback("right");
+                else if (startX - endX > 50) callback("left");
+            });
+        }
+        
+        handleDrag(nameBox, (direction) => {
+            if (isDone) {
+                return;
+            }
+            if (direction === "right") {
+                likedNames.push(names[currentIndex]);
+                nameBox.style.backgroundColor = "#00800099";
+            } else {
+                nameBox.style.backgroundColor = "#ff000066";
+            }
+            setTimeout(() => {
+                nameBox.style.backgroundColor = "#fff"; 
+            }, 1000);
+            currentIndex++;
+            setTimeout(() => showNextName(), 1000);
+        });
+
+        function showLikedNamesPopup() {
+            if (likedNames.length > 0) {
+                isDone = false;
+                likedBestNames = [];
+
+                likedIndex = 0;
+                updateLikedNameDisplay();
+                popupOverlay.style.display = "block";
+            } else {
+                popupOverlay.style.display = "block";
+                document.getElementById("likedNameBox").textContent = "אין שמות שאהבת";
+            }
+        }
+
+        function openFinalList() {
+            if (likedBestNames.length > 0) {
+                popupBestNamesOverlay.style.display = "block";
+                document.getElementById("likedBestNameBox").textContent = likedBestNames.join(", ");
+            } else {
+                popupBestNamesOverlay.style.display = "block";
+                document.getElementById("likedBestNameBox").textContent = "אין שמות שאהבת";
+            }
+        }
+
+        function updateLikedNameDisplay() {
+            if (likedNames.length > 0) {
+                likedNameBox.textContent = likedNames[likedIndex];
+                likedIndexLabel.textContent = `${likedIndex + 1} מתוך ${likedNames.length}`;
+            } else {
+                likedNameBox.textContent = "אין יותר שמות";
+                likedIndexLabel.textContent = "";
+                isDone = true;
+                return;
+            }
+        }
+
+        function showNextBestName() {
+            if (likedIndex < likedNames.length) {
+                likedNameBox.textContent = likedNames[likedIndex];
+            } else {
+                likedNameBox.textContent = "אין יותר שמות";
+                likedIndexLabel.textContent = "";
+                isDone = true;
+                return;
+            }
+            updateLikedNameDisplay();
+        }
+        let isDone = false;
+        handleDrag(likedNameBox, (direction) => {
+            if (isDone) {
+                return;
+            }
+            if (direction === "right") {
+                likedNameBox.style.backgroundColor = "#00800099";
+                likedBestNames.push(likedNames[likedIndex]);
+                likedIndex++;
+            }
+            else {
+                likedNameBox.style.backgroundColor = "#ff000066";
+                likedIndex++;
+            }
+
+            setTimeout(() => {
+                likedNameBox.style.backgroundColor = "#fff";
+            }, 1000);
+            setTimeout(() => showNextBestName(), 1000);
+        });
+
+        function closePopup() {
+            popupOverlay.style.display = "none";
+        }
+
+        function closeBestPopup() {
+            popupBestNamesOverlay.style.display = "none";
+        }
+
+        showNextName();
+    </script>
+</body>
+</html>
