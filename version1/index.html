@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>רשויות מקומיות</title>
+    <link rel="stylesheet" href="StyleSheet1.css">
+</head>
+<body>
+    <header>
+        רשימת הרשויות המקומיות בניהולי
+    </header>
+
+    <div class="grid">
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#128737;</div>
+            תל אביב
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#9962;</div>
+            נצרת
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#127960;</div>
+            ראשון לציון
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#9973;</div>
+            רחובות
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#128737;</div>
+            מודיעין-מכבים-רעות
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#127794;</div>
+            רמת גן
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#128676;</div>
+            נהריה
+        </div>
+        <div class="card" onclick="goToMunicipality('telAviv.html')">
+            <div class="card-icon">&#127963;</div>
+            עכו
+        </div>
+    </div>
+
+    <script src="Script1.js"></script>
+
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>נתוני ערים</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f0f4f8;
+      padding: 20px;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2a4d9b;
+    }
+
+    select {
+      font-size: 18px;
+      padding: 8px;
+      margin: 20px auto;
+      display: block;
+      border-radius: 6px;
+    }
+
+    .section {
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .info-box {
+      background-color: #eef1f8;
+      padding: 10px;
+      border-radius: 8px;
+      margin: 10px 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .card {
+      background-color: #e4ebf5;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .card h3 {
+      margin: 5px 0;
+      color: #2a4d9b;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>נתוני ערים</h1>
+
+  <select id="citySelect">
+    <option value="telaviv">תל אביב</option>
+    <option value="jerusalem">ירושלים</option>
+    <option value="haifa">חיפה</option>
+  </select>
+
+  <div id="cityData" class="section"></div>
+
+  <script>
+    const cityData = {
+      telaviv: {
+        name: "תל אביב",
+        population: 460000,
+        ageGroups: {
+          "0-18": 120000,
+          "19-64": 280000,
+          "65+": 60000
+        },
+        gender: {
+          male: "49%",
+          female: "51%"
+        }
+      },
+      jerusalem: {
+        name: "ירושלים",
+        population: 930000,
+        ageGroups: {
+          "0-18": 350000,
+          "19-64": 500000,
+          "65+": 80000
+        },
+        gender: {
+          male: "48%",
+          female: "52%"
+        }
+      },
+      haifa: {
+        name: "חיפה",
+        population: 280000,
+        ageGroups: {
+          "0-18": 70000,
+          "19-64": 180000,
+          "65+": 30000
+        },
+        gender: {
+          male: "47%",
+          female: "53%"
+        }
+      }
+    };
+
+    const citySelect = document.getElementById('citySelect');
+    const cityDataDiv = document.getElementById('cityData');
+
+    function renderCity(cityKey) {
+      const data = cityData[cityKey];
+      cityDataDiv.innerHTML = `
+        <h2>${data.name}</h2>
+        <div class="info-box">סה"כ אוכלוסייה: <strong>${data.population.toLocaleString()}</strong></div>
+
+        <h3>חלוקה לפי גיל</h3>
+        <div class="grid">
+          ${Object.entries(data.ageGroups).map(([group, value]) => `
+            <div class="card">
+              <h3>${group}</h3>
+              <div>${value.toLocaleString()} תושבים</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <h3>חלוקה לפי מגדר</h3>
+        <div class="grid">
+          <div class="card">
+            <h3>זכרים</h3>
+            <div>${data.gender.male}</div>
+          </div>
+          <div class="card">
+            <h3>נקבות</h3>
+            <div>${data.gender.female}</div>
+          </div>
+        </div>
+      `;
+    }
+
+    citySelect.addEventListener('change', () => {
+      renderCity(citySelect.value);
+    });
+
+    // טען עיר ראשונה כברירת מחדל
+    renderCity(citySelect.value);
+  </script>
+
+</body>
+</html>-->
+
+
+
