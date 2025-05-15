@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8" />
@@ -171,6 +171,50 @@
                 transform: rotate(360deg);
             }
         }
+
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+            .filter-buttons button {
+                padding: 10px 20px;
+                font-size: 16px;
+                border: none;
+                border-radius: 25px;
+                cursor: pointer;
+                background-color: #e0e0e0;
+                transition: background-color 0.3s ease;
+            }
+
+                .filter-buttons button.active {
+                    background-color: #007BFF;
+                    color: white;
+                }
+
+        .cards-loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 150px;
+            text-align: center;
+            color: #444;
+            font-size: 1.2em;
+        }
+
+            .cards-loader .spinner {
+                border: 4px solid #f3f3f3;
+                border-top: 4px solid #3498db;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 1s linear infinite;
+                margin-bottom: 10px;
+            }
     </style>
 </head>
 <body>
@@ -192,20 +236,30 @@
     <form id="messageForm">
         <select id="citySelect" required>
             <option value="">בחר עיר</option>
-            <option>תל אביב</option>
-            <option>ירושלים</option>
-            <option>חיפה</option>
-            <option>אשדוד</option>
-            <option>באר שבע</option>
-            <option>נתניה</option>
-            <option>פתח תקווה</option>
-            <option>ראשון לציון</option>
+            <option>הנהלה</option>
+            <option>אור יהודה</option>
+            <option>אלעד</option>
+            <option>אפרת</option>
+            <option>בית אל</option>
+            <option>מטה יהודה</option>
+            <option>פתח תקוה</option>
+            <option>צור הדסה</option>
+            <option>שהם</option>
         </select>
 
         <textarea id="messageText" placeholder="הכנס את ההודעה שלך כאן..." required></textarea>
         <button type="submit">שלח</button>
     </form>
 
+    <div class="filter-buttons">
+        <button id="filterByDate" class="active">לפי תאריך</button>
+        <button id="filterByCity">לפי עיר</button>
+    </div>
+
+    <div class="cards-loader" id="cardsLoader" style="display: none;">
+        <div class="spinner"></div>
+        <div class="loader-text">טוען נתונים...</div>
+    </div>
     <div class="cards-container" id="messagesContainer"></div>
 
     <script>
@@ -213,6 +267,7 @@
         const citySelect = document.getElementById('citySelect');
         const scriptUrl = "https://script.google.com/macros/s/AKfycbzUnio_9q4Uny-kqIwr1CMkWkrlTaxdnYa3qSoyjDLjLD3nC_p-9dCOQ8lrWzKIitoZgg/exec";
         const messagesContainer = document.getElementById('messagesContainer');
+        const littleLoader = document.getElementById("cardsLoader");
         let messagesFromServer = {};
 
         document.getElementById("messageForm").addEventListener("submit", function (e) {
@@ -221,7 +276,7 @@
             const form = this;
             const city = form.citySelect.value;
             const message = form.messageText.value;
-            const submitBtn = form.querySelector("button[type='submit']");
+            const submitBtn = form.querySelector("button[type='submit']");            
 
             const originalText = submitBtn.innerHTML;
 
@@ -238,6 +293,8 @@
                 })
                 .then(() => {
                     form.reset();
+                    littleLoader.style.display = "flex";
+                    messagesContainer.innerHTML = '';
                     fetchAndRenderMessages();
 
                     submitBtn.innerHTML = '✅ השליחה הצליחה!';
@@ -249,7 +306,7 @@
                     setTimeout(() => {
                         submitBtn.disabled = false;
                         submitBtn.innerHTML = originalText;
-                    }, 3000);
+                    }, 2000);
                 });
         });
 
@@ -270,13 +327,31 @@
         //        });
         //});
 
+        let currentView = 'date'; // ברירת מחדל
+
+        document.getElementById("filterByDate").addEventListener("click", () => {
+            currentView = 'date';
+            updateFilterButtons();
+            renderMessagesByDate();
+        });
+
+        document.getElementById("filterByCity").addEventListener("click", () => {
+            currentView = 'city';
+            updateFilterButtons();
+            renderMessagesByCity();
+        });
+
+        function updateFilterButtons() {
+            document.getElementById("filterByDate").classList.toggle("active", currentView === 'date');
+            document.getElementById("filterByCity").classList.toggle("active", currentView === 'city');
+        }
+
         function fetchAndRenderMessages() {
             fetch(scriptUrl)
                 .then(res => res.json())
                 .then(data => {
                     messagesFromServer = {};
                     data.forEach(entry => {
-                        console.log(entry)
                         const date = entry.timestamp.slice(0, 10);
                         if (!messagesFromServer[date]) {
                             messagesFromServer[date] = [];
@@ -287,7 +362,11 @@
                         });
                     });
 
-                    renderMessages();
+                    if (currentView === 'date') {
+                        renderMessagesByDate();
+                    } else {
+                        renderMessagesByCity();
+                    }
                     document.getElementById('pageLoader').style.display = 'none';
                 })
                 .catch(err => {
@@ -296,7 +375,7 @@
                 });
         }
 
-        function renderMessages() {
+        function renderMessagesByDate() {
             messagesContainer.innerHTML = '';
 
             const sortedDates = Object.keys(messagesFromServer).sort((a, b) => new Date(b) - new Date(a));
@@ -315,8 +394,7 @@
                     messagesEl.style.display = messagesEl.style.display === 'none' ? 'block' : 'none';
                 };
 
-                [...messagesFromServer[date]].reverse().forEach(msg => {
-                    console.log(msg)
+                messagesFromServer[date].slice().reverse().forEach(msg => {
                     const msgDiv = document.createElement('div');
                     msgDiv.className = 'message';
                     msgDiv.innerHTML = `<span class="city">${msg.city}:</span> ${msg.message}`;
@@ -325,12 +403,61 @@
 
                 card.appendChild(header);
                 card.appendChild(messagesEl);
+                littleLoader.style.display = "none";
                 messagesContainer.appendChild(card);
             });
         }
 
+        function renderMessagesByCity() {
+            messagesContainer.innerHTML = '';
+
+            const cityMap = {};
+
+            for (const date in messagesFromServer) {
+                messagesFromServer[date].reverse().forEach(msg => {
+                    if (!cityMap[msg.city]) cityMap[msg.city] = [];
+                    cityMap[msg.city].push({
+                        message: msg.message,
+                        date: date
+                    });
+                });
+            }
+
+            const sortedCities = Object.keys(cityMap).sort((a, b) => a.localeCompare(b, 'he'));
+
+            sortedCities.forEach(city => {
+                const card = document.createElement('div');
+                card.className = 'date-card';
+
+                const messagesEl = document.createElement('div');
+                messagesEl.className = 'messages';
+                messagesEl.style.display = 'none';
+
+                const header = document.createElement('div');
+                header.className = 'date-header';
+                header.textContent = city;
+                header.onclick = () => {
+                    messagesEl.style.display = messagesEl.style.display === 'none' ? 'block' : 'none';
+                };
+
+                cityMap[city]
+                    .sort((a, b) => new Date(b.date) - new Date(a.date)) // הכי חדש למעלה
+                    .forEach(entry => {
+                        const msgDiv = document.createElement('div');
+                        msgDiv.className = 'message';
+                        msgDiv.innerHTML = `<span class="date">${formatDate(entry.date)}:</span> ${entry.message}`;
+                        messagesEl.appendChild(msgDiv);
+                    });
+
+                card.appendChild(header);
+                card.appendChild(messagesEl);
+                littleLoader.style.display = "none";
+                messagesContainer.appendChild(card);
+            });
+        }
+
+
         function formatDate(dateStr) {
-            console.log(dateStr)
             const [year, month, day] = dateStr.split('-');
             return `${day}/${month}/${year}`;
         }
