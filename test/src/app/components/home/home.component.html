@@ -1,0 +1,51 @@
+<header class="header">
+    <img class="logo" src="assets/logo.png" alt="logo"/>
+    <h1 class="site-name">Welcome to the Karaoke interface!</h1>
+</header>
+
+<div>
+    <button (click)="openCurrentSong()">Open current song</button>
+    <button (click)="createPlaylist()">Create a playlist</button>
+</div>
+<br/>
+<div *ngIf="isOneSongExist" class="video-container">
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/95AupwL6dxs?si=XvPIIn9v91pHPvhc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</div>
+
+<div *ngIf="isOneUserExist">
+    <table border="1">
+        <thead>
+            <tr>
+                <th>UserName</th>
+                <th>ChoosenSong</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of usersData">
+                <td>{{data.users}}</td>
+                <td>{{data.song}}</td>
+                <td>
+                    <button class="button edit-btn" (click)="editRow()">Edit</button>
+                    <button class="button delete-btn" (click)="deleteRow()">Delete</button>
+                </td>
+            </tr>
+            <!-- <tr>
+                <td>A</td>
+                <td>B</td>
+                <td>
+                    <button class="button edit-btn" (click)="editRow()">Edit</button>
+                    <button class="button delete-btn" (click)="deleteRow()">Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>A</td>
+                <td>B</td>
+                <td>
+                    <button class="button edit-btn" (click)="editRow()">Edit</button>
+                    <button class="button delete-btn" (click)="deleteRow()">Delete</button>
+                </td>
+            </tr> -->
+        </tbody>
+    </table>
+</div>
