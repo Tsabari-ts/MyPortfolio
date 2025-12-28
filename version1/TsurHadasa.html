@@ -1,0 +1,312 @@
+﻿
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>צור הדסה - נתונים</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a4d9b;
+            font-size: 24px;
+        }
+
+        .section {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        details {
+            margin-bottom: 15px;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 0;
+        }
+
+        .info-box {
+            background-color: #eef1f8;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .card {
+            background-color: #e4ebf5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+            .card h3 {
+                margin: 5px 0;
+                color: #2a4d9b;
+            }
+
+            .card a {
+                display: inline-flex;
+                align-items: center;
+                direction: rtl;
+                gap: 5px;
+            }
+
+        .small {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background-color: #2a4d9b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+            .back-button:hover {
+                background-color: #1a3c75;
+            }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .info-box {
+                padding: 8px;
+            }
+
+            .card h3 {
+                font-size: 16px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .section {
+                padding: 10px;
+            }
+
+            .info-box {
+                padding: 6px;
+            }
+
+            .card h3 {
+                font-size: 14px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>צור הדסה</h1>
+    <button class="back-button" onclick="goHome()">חזור לדף הבית</button>
+
+    <div class="section">
+        <details>
+            <summary>📄 תקופת ההתקשרות במכרז</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>תחילת המכרז</h3>
+                    <div>אוגוסט 2024</div>
+                </div>
+                <div class="card">
+                    <h3>תקופת המכרז</h3>
+                    <div>מאוגוסט 2024 ועד יולי 2027</div>
+                </div>
+                <div class="card">
+                    <h3>אופציות</h3>
+                    <div>2 תקופות נוספות של 12 חודשים כל אחת</div>
+                </div>
+                <div class="card">
+                    <h3>סיום המכרז כולל אופציות</h3>
+                    <div>אוגוסט 2029</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>👥 כח אדם</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>כמות עובדים בתקן</h3>
+                    <div>3 עובדים 100% משרה + עובד שטח -33% משרה.</div>
+                </div>
+                <div class="card">
+                    <h3>תוספת עובדים</h3>
+                    <div>לפי דרישת הרשות בתוספת תשלום, 11,000 ₪ לחודש + מע"מ</div>
+                </div>
+                <div class="card">
+                    <h3>חוסר בעובדים</h3>
+                    <div>חוסר של עובד מקזז מהעמלה סך של 11,000 ₪ + מע"מ</div>
+                </div>
+                <div class="card">
+                    <h3>סה"כ עובדים במחלקה</h3>
+                    <div></div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>💰 עמלה למילגם</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>מתחילת המכרז- מתבסס על תשלום קבוע למילגם, על סך- </h3>
+                    <div>59,000 ₪ </div>
+                </div>
+                <div class="card">
+                    <h3>סכומים אלו יהיו צמודים למדד ובתנאי שהמדד השנתי עלה על </h3>
+                    <div>3%</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>📬 הוצאות בית דפוס + ביול</summary>
+            <div class="info-box">כל הוצאות בית הדפוס + ביול, יהיו על חשבון המועצה <strong>הכולל:</strong></div>
+            <div class="info-box">
+                <ul>
+                    <li>הפקת שוברי ארנונה/מים תקופתי</li>
+                    <li>הפקת שוברי ביוב תקופתי</li>
+                    <li>הפקת התראה ראשונה</li>
+                    <li>הפקת התראה שניה</li>
+                </ul>
+            </div>
+            <div class="info-box">הוצאות טלפון, חשמל, מים ואחזקת משרדים <strong>על חשבון המועצה</strong></div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🧾 הוצאות אחרות</summary>
+            <div class="info-box">כל ההוצאות על חשבון המועצה </div>
+            <div class="info-box">
+                <ul>
+                    <li>מחשוב/טלפון</li>
+                    <li>מדפסות/סורק</li>
+                    <li>נייר</li>
+                    <li>הוצאות משרד (שכירות ואחזקה)</li>
+                    <li>ציוד משרדי</li>
+                    <li>הוצאות אכיפה צד ג'- עיקולי בנקים, איתורים, משרד הרישוי וכו'</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🏆 מנגנון פרס/קנס</summary>
+            <div class="info-box">מנגנון פרס/קנס, יהיה נתון להחלטת המועצה בלבד, בוועדת שלשה (ר.מועצה, מנכ"ל, גזבר), עד 120 יום לאחר תום השנה (עבור שנה שקדמה לה)- הסכום המקסימלי- 50,000 ₪, שיתחלק 60% לעובדים, 40% למילגם</div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🕘 שעות עבודת המחלקה</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>ימים א', ג', ד', ה'</h3>
+                    <div>08:00-16:00</div>
+                </div>
+                <div class="card">
+                    <h3>יום ב'</h3>
+                    <div>08:00-18:00</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🏛️ נתוני הרשות</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>ראש המועצה</h3>
+                    <div>
+                        תומר מוסקוביץ<br>
+                        <a href="tel:0547786024">054-7786024 📞</a><br>
+                        <a href="mailto:Tomer@tzh.org.il">Tomer@tzh.org.il ✉️</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>מנכ"ל העירייה</h3>
+                    <div>
+                        יהודה שווייגר<br>
+                        <a href="mailto:yehuda@tzh.org.il">yehuda@tzh.org.il ✉️</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>גזבר העירייה</h3>
+                    <div>
+                        רן אייזנברג<br>
+                        <a href="tel:0506204473">050-6204473 📞</a><br>
+                        <a href="mailto:gizbar@tzh.org.il">gizbar@tzh.org.il ✉️</a>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <script src="Script1.js"></script>
+</body>
+</html>
