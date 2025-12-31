@@ -1,0 +1,309 @@
+﻿
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>פתח תקוה - נתונים</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a4d9b;
+            font-size: 24px;
+        }
+
+        .section {
+            margin: 20px 0;
+            background: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        details {
+            margin-bottom: 15px;
+        }
+
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 18px;
+            padding: 5px 0;
+        }
+
+        .info-box {
+            background-color: #eef1f8;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        .card {
+            background-color: #e4ebf5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+            .card h3 {
+                margin: 5px 0;
+                color: #2a4d9b;
+            }
+
+            .card a {
+                display: inline-flex;
+                align-items: center;
+                direction: rtl;
+                gap: 5px;
+            }
+
+        .small {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            background-color: #2a4d9b;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+            .back-button:hover {
+                background-color: #1a3c75;
+            }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 20px;
+            }
+
+            .back-button {
+                top: 1rem;
+                left: 1rem;
+                padding: 8px 16px;
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .info-box {
+                padding: 8px;
+            }
+
+            .card h3 {
+                font-size: 16px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .back-button {
+                padding: 8px 12px;
+                font-size: 14px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+
+            .section {
+                padding: 10px;
+            }
+
+            .info-box {
+                padding: 6px;
+            }
+
+            .card h3 {
+                font-size: 14px;
+            }
+
+            .grid {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>פתח תקוה</h1>
+    <button class="back-button" onclick="goHome()">חזור לדף הבית</button>
+
+    <div class="section">
+        <details>
+            <summary>📄 תקופת ההתקשרות במכרז</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>תחילת המכרז</h3>
+                    <div>אוקטובר 2023</div>
+                </div>
+                <div class="card">
+                    <h3>תקופת המכרז</h3>
+                    <div>מאוקטובר 2023 ועד יולי 2024</div>
+                </div>
+                <div class="card">
+                    <h3>אופציות</h3>
+                    <div>4 תקופות נוספות של 12 חודשים כל אחת</div>
+                </div>
+                <div class="card">
+                    <h3>סיום המכרז כולל אופציות</h3>
+                    <div>אוקטובר 2028</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>👥 כח אדם</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>כמות עובדים בתקן</h3>
+                    <div>•	עובדים במחלקת אכיפת גביה- 12</div>
+                    <div>•	עובדים מושאלים למחלקת הגביה בעירייה- 12</div>
+                </div>
+                <div class="card">
+                    <h3>תוספת עובדים</h3>
+                    <div>על כל גידול של 5% בהיקף החיוב השנתי, יחייב את הספק לספק עובד אחד על חשבונו.</div>
+                </div>
+                <div class="card">
+                    <h3>חוסר/תוספת בעובדים</h3>
+                    <div>מעבר לנאמר בסעיף 2 להלן, תוספת או גריעה של עובד, תגדיל או תקטין מהתמורה, סך של 11,000₪ + מע"מ.</div>
+                </div>
+                <div class="card">
+                    <h3>סה"כ עובדים במחלקה</h3>
+                    <div></div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>💰 עמלה למילגם</summary>
+            <div class="info-box">אחוז העמלה יהיה מהחיוב השנתי</div>
+            <div class="info-box">
+                <ul>
+                    <li>אחוז עמלה מחיוב הארנונה השוטף השנתי- 0.37%</li>
+                    <li>אחוז עמלה מגביית בגין שילוט- 8.18%</li>
+                    <li>הוצאות אכיפה- במלואו</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>📬 הוצאות בית דפוס + ביול</summary>
+            <div class="info-box">כל הוצאות בית הדפוס + ביול <strong>יהיו על חשבון מילגם</strong></div>
+            <div class="info-box">הוצאות טלפון, חשמל, מים ואחזקת משרדים <strong>יהיו על חשבון מילגם</strong></div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🧾 הוצאות אחרות</summary>
+            <div class="info-box">כל ההוצאות על חשבון מילגם </div>
+            <div class="info-box">
+                <ul>
+                    <li>מחשוב/טלפון</li>
+                    <li>מדפסות/סורק</li>
+                    <li>נייר</li>
+                    <li>הוצאות משרד (שכירות ואחזקה)</li>
+                    <li>ציוד משרדי</li>
+                    <li>הוצאות אכיפה צד ג'- עיקולי בנקים, איתורים, משרד הרישוי וכו'</li>
+                </ul>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🏆 מנגנון פרס/קנס</summary>
+            <div class="info-box">אין מנגנון פרס קנס</div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🕘 שעות עבודת המחלקה</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>ימים א', ג'</h3>
+                    <div>08:00-18:00</div>
+                </div>
+                <div class="card">
+                    <h3>ימים ב', ד', ה'</h3>
+                    <div>08:00-16:00</div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <div class="section">
+        <details>
+            <summary>🏛️ נתוני הרשות</summary>
+            <div class="grid">
+                <div class="card">
+                    <h3>ראש העיר</h3>
+                    <div>
+                        רמי גרינברג<br>
+                        <a href="mailto:ramig@ptikva.org.il">ramig@ptikva.org.il  ✉️</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>מנהל אגף הכנסות</h3>
+                    <div>
+                        ניסים חנגל<br>
+                        <a href="tel:0545605699 ">054-5605699 📞</a><br>
+                        <a href="mailto:hengeln@ptikva.org.il">hengeln@ptikva.org.il ✉️</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>סגן מנהל אגף הכנסות</h3>
+                    <div>
+                        רונן סבח<br>
+                        <a href="tel:0525975235">052-5975235 📞</a><br>
+                        <a href="mailto:ronensa@ptikva.org.il">ronensa@ptikva.org.il ✉️</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>גזבר העירייה</h3>
+                    <div>
+                        אייל חושן<br>
+                    </div>
+                </div>
+            </div>
+        </details>
+    </div>
+
+    <script src="Script1.js"></script>
+</body>
+</html>
